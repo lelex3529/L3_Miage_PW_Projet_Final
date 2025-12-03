@@ -1,0 +1,6 @@
+{
+    "require": {
+        "symfony/orm-pack": "^2.5",
+        "doctrine/doctrine-migrations-bundle": "^3.7"
+    }
+}
