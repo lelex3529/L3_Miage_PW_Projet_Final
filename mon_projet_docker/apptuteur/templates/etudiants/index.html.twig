@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Étudiants
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h1 class="h4 mb-0">Mes étudiants</h1>
+		<a class="btn btn-primary" href="{{ path('etudiants_new') }}">Ajouter un étudiant</a>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-striped align-middle">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Formation</th>
+					<th>Email</th>
+					<th class="text-end">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for etudiant in etudiants %}
+					<tr>
+						<td>{{ etudiant.nom }}</td>
+						<td>{{ etudiant.prenom }}</td>
+						<td>{{ etudiant.formation }}</td>
+						<td>{{ etudiant.email|default('-') }}</td>
+						<td class="text-end">
+							<div class="btn-group" role="group">
+								<a class="btn btn-outline-primary btn-sm" href="{{ path('etudiant_visites', {id: etudiant.id}) }}">Visites</a>
+								<a class="btn btn-outline-secondary btn-sm" href="{{ path('visites_new', {id: etudiant.id}) }}">Ajouter visite</a>
+								<a class="btn btn-outline-dark btn-sm" href="{{ path('etudiants_edit', {id: etudiant.id}) }}">Modifier</a>
+								<form method="post" action="{{ path('etudiants_delete', {id: etudiant.id}) }}" onsubmit="return confirm('Supprimer cet étudiant ?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete_etudiant_' ~ etudiant.id) }}">
+									<button class="btn btn-outline-danger btn-sm" type="submit">Supprimer</button>
+								</form>
+							</div>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="5">Aucun étudiant.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

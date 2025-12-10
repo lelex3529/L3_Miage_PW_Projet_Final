@@ -1,0 +1,41 @@
+{#
+  Partial réutilisable pour afficher une carte Tuteur.
+  Utilisation: {% include 'partials/_tuteur_card.html.twig' with {'tuteur': tuteur} %}
+#}
+
+{# Calcul des initiales #}
+{% set initials = ((tuteur.prenom|default('')|trim|slice(0,1)) ~ (tuteur.nom|default('')|trim|slice(0,1)))|upper %}
+
+<article class="tuteur-card" role="group" aria-labelledby="tuteur-name-{{ tuteur.id }}">
+  <header class="card-header">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="tuteur-avatar" aria-hidden="true">{{ initials }}</div>
+      <div>
+        <h2 id="tuteur-name-{{ tuteur.id }}" style="margin:0;font-size:1.1rem">{{ (tuteur.prenom|default('') ~ ' ' ~ tuteur.nom|default(''))|trim }}</h2>
+        {% if tuteur.entreprise is defined and tuteur.entreprise %}
+          <div style="font-size:0.95rem;color:#2d3748">{{ tuteur.entreprise }}</div>
+        {% endif %}
+        {% if tuteur.email is defined and tuteur.email %}
+          <div style="font-size:0.9rem;color:#4b5563"><a href="mailto:{{ tuteur.email }}">{{ tuteur.email }}</a></div>
+        {% endif %}
+        {% if tuteur.telephone is defined and tuteur.telephone %}
+          <div style="font-size:0.9rem;color:#4b5563">Tel: <a href="tel:{{ tuteur.telephone }}">{{ tuteur.telephone }}</a></div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="card-body">
+    {# On peut ajouter ici un résumé ou détails supplémentaires si besoin #}
+    {% if tuteur.description is defined and tuteur.description %}
+      <p style="margin:0;color:#475569">{{ tuteur.description }}</p>
+    {% endif %}
+  </div>
+
+  <footer class="card-footer text-end">
+    {# bouton d'action, réutilisable ; ici retour liste si route existante #}
+    {% if path('tuteurs') is defined %}
+      <a class="btn btn-secondary" href="{{ path('tuteurs') }}">Retour à la liste</a>
+    {% endif %}
+  </footer>
+</article>

@@ -1,0 +1,67 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des tuteurs
+{% endblock %}
+
+{% block body %}
+	<h1>Liste des tuteurs</h1>
+
+	{# J'ajoute une classe pour pouvoir le cibler en CSS (Bonus) #}
+	<table class="table-tuteurs">
+		<thead>
+			<tr>
+				{# Point 2 & 3: En-têtes en majuscules avec |upper #}
+				<th>
+					{# 
+																				                      Point 4: Lien de tri
+																				                      - path(app.request.attributes.get('_route')) : réutilise la route actuelle.
+																				                      - app.request.query.all : récupère tous les paramètres existants (ex: page, filtre...).
+																				                      - |merge(...) : fusionne les paramètres existants avec nos paramètres de tri.
+																				                      - 'dir': ... ? ... : ... : inverse la direction de tri actuelle.
+																				                    #}
+					<a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ sort: 'nom', dir: app.request.query.get('dir') == 'asc' ? 'desc' : 'asc' })) }}">
+						{{ 'nom'|upper }}
+					</a>
+				</th>
+				<th>{{ 'prénom'|upper }}</th>
+				<th>{{ 'entreprise'|upper }}</th>
+				<th>{{ 'email'|upper }}</th>
+				<th>{{ 'téléphone'|upper }}</th>
+				<th>{{ '# étudiants'|upper }}</th>
+				<th>{{ 'actions'|upper }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			{# 
+												              Point 3: Boucle for/else 
+												              - MODIFICATION: On utilise 'tuteurs' directement, car c'est ce que le contrôleur envoie.
+												            #}
+			{% for tuteur in tuteurs %}
+				<tr>
+					<td>{{ tuteur.nom }}</td>
+					<td>{{ tuteur.prenom }}</td>
+
+					{# Point 3: |default('-') pour les champs vides #}
+					<td>{{ tuteur.entreprise|default('-') }}</td>
+					<td>{{ tuteur.email|default('-') }}</td>
+					<td>{{ tuteur.telephone|default('-') }}</td>
+
+					{# Point 3: |length pour compter les étudiants (en supposant que c'est une collection)
+																						  Utilise |default([]) pour éviter une erreur si la clé est absente. #}
+					<td>{{ (tuteur.etudiants|default([]))|length }}</td>
+
+					<td>
+						{# Point 5: Lien vers la page détail /tuteurs/{id} #}
+						<a href="/tuteurs/{{ tuteur.id }}">Voir</a>
+					</td>
+				</tr>
+			{% else %}
+				{# S'affiche si la variable `tuteurs` est vide #}
+				<tr>
+					{# 'colspan' fusionne les 7 colonnes pour centrer le message #}
+					<td colspan="7">Aucun tuteur</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

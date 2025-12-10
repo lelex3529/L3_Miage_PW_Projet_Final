@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Résultat de la recherche</title>
+	</head>
+	<body style="font-family: Arial; text-align:center; margin-top:50px;">
+		{% if existe %}
+			<h2 style="color:green;">Le tuteur "{{ nom }}" existe bien !</h2>
+		{% else %}
+			<h2 style="color:red;">Aucun tuteur trouvé pour "{{ nom }}".</h2>
+		{% endif %}
+
+		<a href="{{ path('search_tuteur') }}">🔙 Rechercher un autre tuteur</a>
+	</body>
+</html>

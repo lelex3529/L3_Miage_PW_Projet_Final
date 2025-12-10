@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier visite
+{% endblock %}
+
+{% block body %}
+	<h1 class="h4 mb-3">Modifier la visite</h1>
+	{% include 'visites/_form.html.twig' with {form: form, submit_label: 'Mettre à jour', back_path: path('etudiant_visites', {id: visite.etudiant.id})} %}
+{% endblock %}

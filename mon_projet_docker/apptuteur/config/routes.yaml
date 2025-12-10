@@ -1,0 +1,42 @@
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: App\Controller
+  type: attribute
+
+accueil:
+  path: /
+  controller: App\Controller\MainController::index
+
+calcul:
+  path: /calcul/{value}
+  controller: App\Controller\MainController::indexter
+  requirements:
+    value: "^(100|[1-9]?[0-9])$"
+
+form:
+  path: /form/{nom}
+  controller: App\Controller\FormController::hello
+
+tuteur:
+  path: /tuteurs/{id}
+  controller: App\Controller\TuteurController::show
+
+tuteurs:
+  path: /tuteurs
+  controller: App\Controller\TuteurController::index
+
+sujets:
+  path: /sujets
+  controller: App\Controller\TuteurController::sujets
+
+search_tuteur:
+  path: /search_tuteur
+  controller: App\Controller\FormController::search
+
+verify_tuteur: #Pour la méthode post
+  path: /verify_tuteur
+  controller: App\Controller\FormController::verify
+  methods: [POST]
+#La commande suivante nous permet de recenser toutes les routes du projet : php bin/console debug:router
+#Pour arrêter les conteneurs ont utilise la commande suivante : docker-compose down

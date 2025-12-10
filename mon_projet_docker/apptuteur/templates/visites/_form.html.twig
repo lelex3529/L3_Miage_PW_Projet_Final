@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+<div class="row g-3">
+	<div class="col-md-6">{{ form_row(form.date) }}</div>
+	<div class="col-md-6">{{ form_row(form.statut) }}</div>
+	<div class="col-12">{{ form_row(form.commentaire) }}</div>
+	{% if form.compteRendu is defined %}
+		<div class="col-12">{{ form_row(form.compteRendu) }}</div>
+	{% endif %}
+</div>
+<div class="mt-3 d-flex gap-2">
+	<button class="btn btn-primary" type="submit">{{ submit_label|default('Enregistrer') }}</button>
+	<a class="btn btn-secondary" href="{{ back_path }}">Annuler</a>
+</div>
+{{ form_end(form) }}

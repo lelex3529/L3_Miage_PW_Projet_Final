@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier étudiant
+{% endblock %}
+
+{% block body %}
+	<h1 class="h4 mb-3">Modifier l'étudiant</h1>
+	{% include 'etudiants/_form.html.twig' with {form: form, submit_label: 'Mettre à jour'} %}
+{% endblock %}

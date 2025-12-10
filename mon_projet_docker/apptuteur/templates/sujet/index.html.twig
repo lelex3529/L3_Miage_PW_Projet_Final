@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+{% endblock %}
+
+{% block title %}Sujets de stage
+{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-10 col-lg-8">
+				<h1>Sujets de stage</h1>
+
+				{# Import de la macro badge #}
+				{% import 'macros/_badge.html.twig' as badges %}
+
+				{# Filtre par entreprise (bonus) #}
+				<form method="get" action="{{ path('sujets') }}" style="margin:12px 0 18px; display:flex;gap:8px;align-items:center">
+					<label for="entreprise">Filtrer par entreprise:</label>
+					<select id="entreprise" name="entreprise">
+						<option value="">Toutes les entreprises</option>
+						{% for e in entreprises %}
+							<option value="{{ e }}" {% if e == selectedEntreprise %} selected {% endif %}>{{ e }}</option>
+						{% endfor %}
+					</select>
+					<button class="btn btn-secondary" type="submit">Filtrer</button>
+					{% if selectedEntreprise %}
+						<a href="{{ path('sujets') }}" class="btn btn-secondary">Effacer</a>
+					{% endif %}
+				</form>
+
+				<p>{{ sujets|length }}
+					sujet(s) trouvés.</p>
+
+				{# Affichage en liste #}
+				<section style="margin-top:18px">
+					<h2>Liste</h2>
+					<ul class="students-list">
+						{% for s in sujets %}
+							<li class="student-item">
+								<div style="display:flex;justify-content:space-between;align-items:center;gap:12px; width:100%">
+									<div>
+										<div class="student-info">{{ (s.etudiant.prenom|default('') ~ ' ' ~ s.etudiant.nom|default(''))|trim }}</div>
+										<div class="student-meta">Tuteur :
+											{{ (s.tuteur.prenom ~ ' ' ~ s.tuteur.nom)|trim }}
+											{% if s.tuteur.entreprise %}
+												—
+												{{ s.tuteur.entreprise }}
+											{% endif %}
+										</div>
+									</div>
+									<div>
+										{{ badges.badge(s.sujet) }}
+									</div>
+								</div>
+							</li>
+						{% else %}
+							<li class="no-students">Aucun sujet trouvé.</li>
+						{% endfor %}
+					</ul>
+				</section>
+
+				{# Affichage en cartes #}
+				<section style="margin-top:28px">
+					<h2>Cartes</h2>
+					<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:12px">
+						{% for s in sujets %}
+							<article class="tuteur-card" style="padding:12px;box-shadow:none;max-width:100%;">
+								<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+									<div>
+										<div style="font-weight:600">{{ (s.etudiant.prenom|default('') ~ ' ' ~ s.etudiant.nom|default(''))|trim }}</div>
+										<div style="font-size:0.9rem;color:#475569">Tuteur:
+											{{ (s.tuteur.prenom ~ ' ' ~ s.tuteur.nom)|trim }}</div>
+										{% if s.tuteur.entreprise %}
+											<div style="font-size:0.85rem;color:#6b7280">{{ s.tuteur.entreprise }}</div>
+										{% endif %}
+									</div>
+									<div style="align-self:center">{{ badges.badge(s.sujet) }}</div>
+								</div>
+							</article>
+						{% endfor %}
+					</div>
+				</section>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

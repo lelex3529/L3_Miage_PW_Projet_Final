@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+<div class="row g-3">
+	<div class="col-md-6">{{ form_row(form.prenom) }}</div>
+	<div class="col-md-6">{{ form_row(form.nom) }}</div>
+	<div class="col-md-6">{{ form_row(form.formation) }}</div>
+	<div class="col-md-6">{{ form_row(form.email) }}</div>
+</div>
+<div class="mt-3 d-flex gap-2">
+	<button class="btn btn-primary" type="submit">{{ submit_label|default('Enregistrer') }}</button>
+	<a class="btn btn-secondary" href="{{ path('etudiants_index') }}">Annuler</a>
+</div>
+{{ form_end(form) }}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{# Forcer le rechargement du fichier CSS (cache-bust) afin de vérifier la liaison #}
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}?v=2">
+{% endblock %}
+
+{% block title %}Détails du tuteur
+{% endblock %}
+
+{% block body %}
+	<div class="container my-4">
+		<div class="row justify-content-center">
+			<div
+				class="col-12 col-md-10 col-lg-8">
+				{# Include the reusable tutor card partial #}
+				{% include 'partials/_tuteur_card.html.twig' with {'tuteur': tuteur} %}
+
+				{# Section Étudiants encadrés #}
+				<section class="students-section" aria-labelledby="students-title">
+					<h3 id="students-title" style="margin-top:18px;margin-bottom:10px">Étudiants encadrés</h3>
+
+					{# Support both properties 'etudiants' and 'students' if unsure #}
+					{% set encadres = tuteur.etudiants|default(tuteur.students|default([])) %}
+
+					<ul class="students-list">
+						{% for etudiant in encadres %}
+							{% set sujet = etudiant.sujet|default(etudiant.sujet_stage|default(etudiant.sujetDeStage|default('Sujet non renseigné'))) %}
+							<li class="student-item">
+								<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+									<div>
+										<div style="font-weight:600">{{ (etudiant.prenom|default('') ~ ' ' ~ etudiant.nom|default(''))|trim }}</div>
+										<div style="font-size:0.9rem;color:#475569">{{ etudiant.promo|default('') }}</div>
+									</div>
+									<div>
+										<span class="student-badge">{{ sujet }}</span>
+									</div>
+								</div>
+							</li>
+						{% else %}
+							<li class="no-students">Aucun étudiant pour ce tuteur</li>
+						{% endfor %}
+					</ul>
+
+				</section>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte rendu
+{% endblock %}
+
+{% block body %}
+	<div class="d-flex justify-content-between align-items-center mb-3">
+		<h1 class="h4 mb-0">Compte rendu de visite</h1>
+		<div class="d-flex gap-2">
+			<a class="btn btn-secondary" href="{{ path('etudiant_visites', {id: etudiant.id}) }}">Retour</a>
+			<a class="btn btn-success" href="{{ path('visites_compte_rendu', {id: visite.id, export: 'pdf'}) }}">Exporter PDF</a>
+		</div>
+	</div>
+
+	<div class="card shadow-sm mb-3">
+		<div class="card-body">
+			<p class="mb-1">
+				<strong>Étudiant :</strong>
+				{{ etudiant.prenom }}
+				{{ etudiant.nom }}</p>
+			<p class="mb-1">
+				<strong>Date :</strong>
+				{{ visite.date|date('d/m/Y H:i') }}</p>
+			<p class="mb-1">
+				<strong>Statut :</strong>
+				{{ visite.statut|capitalize }}</p>
+			<p class="mb-1">
+				<strong>Commentaire initial :</strong>
+				{{ visite.commentaire }}</p>
+		</div>
+	</div>
+
+	<div class="card shadow-sm">
+		<div class="card-body">
+			<h2 class="h5">Saisir le compte rendu</h2>
+			{{ form_start(form) }}
+			{{ form_row(form.compteRendu) }}
+			<button class="btn btn-primary" type="submit">Enregistrer</button>
+			{{ form_end(form) }}
+		</div>
+	</div>
+{% endblock %}

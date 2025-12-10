@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Liste des tuteurs
+{% endblock %}
+
+{% block body %}
+	<h1>Liste des tuteurs</h1>
+
+	{% if tableau.tuteurs is not empty %}
+		<ul>
+			{% for tuteur in tableau.tuteurs %}
+				<li>
+					<strong>{{ tuteur.prenom }}
+						{{ tuteur.nom }}</strong>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>Aucun tuteur trouvé.</p>
+	{% endif %}
+{% endblock %}

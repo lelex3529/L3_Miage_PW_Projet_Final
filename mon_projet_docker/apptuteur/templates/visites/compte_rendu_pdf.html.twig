@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				font-family: DejaVu Sans, Arial, sans-serif;
+				font-size: 12px;
+			}
+			h1 {
+				font-size: 20px;
+				margin-bottom: 10px;
+			}
+			p {
+				margin: 4px 0;
+			}
+			.block {
+				border: 1px solid #ccc;
+				padding: 10px;
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Compte rendu de visite</h1>
+		<div class="block">
+			<p>
+				<strong>Étudiant :</strong>
+				{{ etudiant.prenom }}
+				{{ etudiant.nom }}</p>
+			<p>
+				<strong>Tuteur :</strong>
+				{{ tuteur.prenom }}
+				{{ tuteur.nom }}</p>
+			<p>
+				<strong>Date :</strong>
+				{{ visite.date|date('d/m/Y H:i') }}</p>
+			<p>
+				<strong>Statut :</strong>
+				{{ visite.statut|capitalize }}</p>
+			<p>
+				<strong>Commentaire initial :</strong>
+				{{ visite.commentaire }}</p>
+		</div>
+		<div class="block">
+			<p>
+				<strong>Compte rendu :</strong>
+			</p>
+			<p>{{ visite.compteRendu|default('Non saisi') }}</p>
+		</div>
+	</body>
+</html>
